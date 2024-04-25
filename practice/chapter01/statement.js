@@ -3,12 +3,12 @@ export default function statement(invoice, plays) {
     return plays[aPerformance.playId];
   }
 
-  function amountFor(aPerformance, play) {
+  function amountFor(aPerformance) {
     // 값이 바뀌지 않는 변수는 매개변수로 전달
 
     let result = 0; // 변수를 초기화하는 코드
 
-    switch (play.type) {
+    switch (playFor(aPerformance).type) {
       case 'tragedy':
         result = 40_000;
 
@@ -26,7 +26,7 @@ export default function statement(invoice, plays) {
         break;
 
       default:
-        throw new Error(`알 수 없는 장르: ${play.type}`);
+        throw new Error(`알 수 없는 장르: ${playFor(aPerformance).type}`);
     }
 
     return result; // 함수 안에서 값이 바뀌는 변수 반환
@@ -42,7 +42,7 @@ export default function statement(invoice, plays) {
   }).format;
 
   for (let perf of invoice.performances) {
-    let thisAmount = amountFor(perf, playFor(perf));
+    let thisAmount = amountFor(perf);
 
     // 포인트를 적립한다.
     volumeCredits += Math.max(perf.audience - 30, 0);
