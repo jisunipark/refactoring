@@ -1,4 +1,8 @@
 export default function statement(invoice, plays) {
+  function playFor(aPerformance) {
+    return plays[aPerformance.playId];
+  }
+
   function amountFor(aPerformance, play) {
     // 값이 바뀌지 않는 변수는 매개변수로 전달
 
@@ -38,7 +42,7 @@ export default function statement(invoice, plays) {
   }).format;
 
   for (let perf of invoice.performances) {
-    const play = plays[perf.playID];
+    const play = playFor(perf);
     let thisAmount = amountFor(perf, play);
 
     // 포인트를 적립한다.
