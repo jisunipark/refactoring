@@ -1,9 +1,9 @@
 export default function statement(invoice, plays) {
-  return renderPlainText(invoice, plays); // 본문 전체를 별도 함수로 추출
+  const statementData = {};
+  return renderPlainText(statementData, invoice, plays);
 }
 
-function renderPlainText(invoice, plays) {
-  // 본문 전체를 별도 함수로 추출
+function renderPlainText(data, invoice, plays) {
   let result = `청구내역 (고객명: ${invoice.customer})\n`;
 
   for (let perf of invoice.performances) {
@@ -22,7 +22,7 @@ function renderPlainText(invoice, plays) {
     }
     return result;
   }
-  // 여기서부터 중첩 함수 시작
+
   function totalVolumeCredits() {
     let volumeCredits = 0;
     for (let perf of invoice.performances) {
