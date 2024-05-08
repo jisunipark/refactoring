@@ -56,39 +56,31 @@ export default function statement(invoice, plays) {
   }
 
   function totalAmount(data) {
-    let result = 0;
-    for (let perf of data.performances) {
-      result += perf.amount;
-    }
-    return result;
+    return data.performances.reduce((total, p) => total + p.amount, 0);
   }
 
   function totalVolumeCredits(data) {
-    let volumeCredits = 0;
+    return data.performances.reduce((total, p) => total + p.volumeCredits, 0);
+  }
+
+  function renderPlainText(data) {
+    let result = `청구내역 (고객명: ${data.customer})\n`;
+
     for (let perf of data.performances) {
-      volumeCredits += perf.volumeCredits;
+      result += `${perf.play.name}: ${usd(perf.amount)} ${perf.audience}석\n`;
     }
-    return volumeCredits;
-  }
-}
 
-function renderPlainText(data) {
-  let result = `청구내역 (고객명: ${data.customer})\n`;
+    result += `총액 ${usd(data.totalAmount)}\n`;
+    result += `적립 포인트 ${data.totalVolumeCredits}점\n`;
 
-  for (let perf of data.performances) {
-    result += `${perf.play.name}: ${usd(perf.amount)} ${perf.audience}석\n`;
-  }
+    return result;
 
-  result += `총액 ${usd(data.totalAmount)}\n`;
-  result += `적립 포인트 ${data.totalVolumeCredits}점\n`;
-
-  return result;
-
-  function usd(aNumber) {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      maximumFractionDigits: 2,
-    }).format(aNumber / 100);
+    function usd(aNumber) {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        maximumFractionDigits: 2,
+      }).format(aNumber / 100);
+    }
   }
 }
