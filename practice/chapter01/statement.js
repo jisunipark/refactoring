@@ -44,10 +44,10 @@ export default function statement(invoice, plays) {
     let result = 0;
 
     // 포인트를 적립한다.
-    volumeCredits += Math.max(perf.audience - 30, 0);
+    result += Math.max(perf.audience - 30, 0);
 
     // 희극 관객 5명마다 추가 포인트를 제공한다.
-    if ('comedy' === playFor(perf).type) volumeCredits += Math.floor(perf.audience / 5);
+    if ('comedy' === playFor(perf).type) result += Math.floor(perf.audience / 5);
 
     return result;
   }
@@ -69,9 +69,9 @@ export default function statement(invoice, plays) {
     result += `${playFor(perf).name}: ${usd(amountFor(perf))} ${perf.audience}석\n`;
     totalAmount += amountFor(perf);
   }
-  let volumeCredits = totalVolumeCredits(); // 값 계산 로직을 함수로 추출
+
   result += `총액 ${usd(totalAmount)}\n`;
-  result += `적립 포인트 ${volumeCredits}점\n`;
+  result += `적립 포인트 ${totalVolumeCredits()}점\n`; // 변수 인라인
 
   return result;
 }
