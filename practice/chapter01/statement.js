@@ -1,4 +1,9 @@
 export default function statement(invoice, plays) {
+  return renderPlainText(invoice, plays); // 본문 전체를 별도 함수로 추출
+}
+
+function renderPlainText(invoice, plays) {
+  // 본문 전체를 별도 함수로 추출
   let result = `청구내역 (고객명: ${invoice.customer})\n`;
 
   for (let perf of invoice.performances) {
