@@ -52,6 +52,15 @@ export default function statement(invoice, plays) {
     return result;
   }
 
+  function totalVolumeCredits() {
+    let volumeCredits = 0; // 변수 선언(초기화)을 반복문 앞으로 이동
+    for (let perf of invoice.performances) {
+      // 값 누적 로직을 별도 for문으로 분리
+      volumeCredits += volumeCreditsFor(perf);
+    }
+    return volumeCredits;
+  }
+
   let totalAmount = 0;
   let result = `청구내역 (고객명: ${invoice.customer})\n`;
 
@@ -60,13 +69,7 @@ export default function statement(invoice, plays) {
     result += `${playFor(perf).name}: ${usd(amountFor(perf))} ${perf.audience}석\n`;
     totalAmount += amountFor(perf);
   }
-
-  let volumeCredits = 0; // 변수 선언(초기화)을 반복문 앞으로 이동
-  for (let perf of invoice.performances) {
-    // 값 누적 로직을 별도 for문으로 분리
-    volumeCredits += volumeCreditsFor(perf);
-  }
-
+  let volumeCredits = totalVolumeCredits(); // 값 계산 로직을 함수로 추출
   result += `총액 ${usd(totalAmount)}\n`;
   result += `적립 포인트 ${volumeCredits}점\n`;
 
