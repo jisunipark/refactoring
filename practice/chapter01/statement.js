@@ -5,16 +5,21 @@ export default function statement(invoice, plays) {
   return renderPlainText(statementData, plays);
 
   function enrichPerformance(aPerformance) {
-    const result = Object.assign({}, aPerformance); // 얕은 복사 수행
+    const result = Object.assign({}, aPerformance);
+    result.play = playFor(result);
     return result;
+  }
+
+  function playFor(aPerformance) {
+    return plays[aPerformance.playId];
   }
 }
 
-function renderPlainText(data, plays) {
+function renderPlainText(data) {
   let result = `청구내역 (고객명: ${data.customer})\n`;
 
   for (let perf of data.performances) {
-    result += `${playFor(perf).name}: ${usd(amountFor(perf))} ${perf.audience}석\n`;
+    result += `${perf.play.name}: ${usd(amountFor(perf))} ${perf.audience}석\n`;
   }
 
   result += `총액 ${usd(totalAmount())}\n`;
@@ -51,19 +56,15 @@ function renderPlainText(data, plays) {
 
     result += Math.max(perf.audience - 30, 0);
 
-    if ('comedy' === playFor(perf).type) result += Math.floor(perf.audience / 5);
+    if ('comedy' === perf.play.type) result += Math.floor(perf.audience / 5);
 
     return result;
-  }
-
-  function playFor(aPerformance) {
-    return plays[aPerformance.playId];
   }
 
   function amountFor(aPerformance) {
     let result = 0;
 
-    switch (playFor(aPerformance).type) {
+    switch (aPerformance.play.type) {
       case 'tragedy':
         result = 40_000;
 
@@ -81,7 +82,7 @@ function renderPlainText(data, plays) {
         break;
 
       default:
-        throw new Error(`알 수 없는 장르: ${playFor(aPerformance).type}`);
+        throw new Error(`알 수 없는 장르: ${aPerformance.play.type}`);
     }
 
     return result;
