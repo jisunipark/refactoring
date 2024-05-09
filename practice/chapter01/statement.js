@@ -1,9 +1,9 @@
 import createStatementData from './createStatementData';
 
 export class PerformanceCalculator {
-  // 공연료 계산기 클래스
-  constructor(aPerformance) {
+  constructor(aPerformance, aPlay) {
     this.performance = aPerformance;
+    this.play = aPlay;
   }
 }
 

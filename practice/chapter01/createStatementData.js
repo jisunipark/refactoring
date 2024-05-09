@@ -9,7 +9,7 @@ export default function createStatementData(invoice, plays) {
   return statementData;
 
   function enrichPerformance(aPerformance) {
-    const calculator = new PerformanceCalculator(aPerformance); // 공연료 계산기 생성
+    const calculator = new PerformanceCalculator(aPerformance, playFor(aPerformance)); // 공연 정보를 계산기로 전달
     const result = Object.assign({}, aPerformance);
     result.play = playFor(result);
     result.amount = amountFor(result);
