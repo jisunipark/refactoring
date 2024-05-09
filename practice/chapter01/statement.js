@@ -1,5 +1,12 @@
 import createStatementData from './createStatementData';
 
+export class PerformanceCalculator {
+  // 공연료 계산기 클래스
+  constructor(aPerformance) {
+    this.performance = aPerformance;
+  }
+}
+
 export default function statement(invoice, plays) {
   renderPlainText(createStatementData(invoice, plays));
 }
