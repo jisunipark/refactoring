@@ -43,6 +43,10 @@ export class PerformanceCalculator {
   }
 }
 
+export function createPerformanceCalculator(aPerformance, aPlay) {
+  return new PerformanceCalculator(aPerformance, aPlay);
+}
+
 export default function statement(invoice, plays) {
   renderPlainText(createStatementData(invoice, plays));
 }

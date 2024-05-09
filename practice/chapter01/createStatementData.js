@@ -1,4 +1,4 @@
-import { PerformanceCalculator } from './statement';
+import { createPerformanceCalculator } from './statement';
 
 export default function createStatementData(invoice, plays) {
   const statementData = {};
@@ -9,25 +9,17 @@ export default function createStatementData(invoice, plays) {
   return statementData;
 
   function enrichPerformance(aPerformance) {
-    const calculator = new PerformanceCalculator(aPerformance, playFor(aPerformance));
+    const calculator = createPerformanceCalculator(aPerformance, playFor(aPerformance)); // 생성자 대신 팩터리 함수 이용
 
     const result = Object.assign({}, aPerformance);
     result.play = calculator.play;
-    result.amount = calculator.amount; // amountFor() 대신 계산기의 함수 이용
+    result.amount = calculator.amount;
     result.volumeCredits = calculator.volumeCredits;
     return result;
   }
 
   function playFor(aPerformance) {
     return plays[aPerformance.playId];
-  }
-
-  function amountFor(aPerformance) {
-    return new PerformanceCalculator(aPerformance, playFor(aPerformance)).amount;
-  }
-
-  function volumeCreditsFor(perf) {
-    return new PerformanceCalculator(perf, playFor(perf)).volumeCredits;
   }
 
   function totalAmount(data) {
