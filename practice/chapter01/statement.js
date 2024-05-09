@@ -5,6 +5,35 @@ export class PerformanceCalculator {
     this.performance = aPerformance;
     this.play = aPlay;
   }
+
+  get amount() {
+    // amountFor() 함수의 코드를 계산기 클래스로 복사
+    let result = 0;
+
+    switch (
+      this.play.type // amountFor() 함수가 매개변수로 받던 정보를 계산기 필드에서 바로 얻음
+    ) {
+      case 'tragedy':
+        result = 40_000;
+        if (this.audience > 30) {
+          result += 1_000 * (this.audience - 30);
+        }
+        break;
+      case 'comedy':
+        result = 30_000;
+
+        if (this.audience > 20) {
+          result += 10_000 + 500 * (this.audience - 20);
+        }
+        result += 300 * this.audience;
+        break;
+
+      default:
+        throw new Error(`알 수 없는 장르: ${this.play.type}`);
+    }
+
+    return result;
+  }
 }
 
 export default function statement(invoice, plays) {

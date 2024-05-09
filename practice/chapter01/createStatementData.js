@@ -9,7 +9,7 @@ export default function createStatementData(invoice, plays) {
   return statementData;
 
   function enrichPerformance(aPerformance) {
-    const calculator = new PerformanceCalculator(aPerformance, playFor(aPerformance)); // 공연 정보를 계산기로 전달
+    const calculator = new PerformanceCalculator(aPerformance, playFor(aPerformance));
     const result = Object.assign({}, aPerformance);
     result.play = playFor(result);
     result.amount = amountFor(result);
@@ -22,30 +22,7 @@ export default function createStatementData(invoice, plays) {
   }
 
   function amountFor(aPerformance) {
-    let result = 0;
-
-    switch (aPerformance.play.type) {
-      case 'tragedy':
-        result = 40_000;
-
-        if (aPerformance.audience > 30) {
-          result += 1_000 * (aPerformance.audience - 30);
-        }
-        break;
-      case 'comedy':
-        result = 30_000;
-
-        if (aPerformance.audience > 20) {
-          result += 10_000 + 500 * (aPerformance.audience - 20);
-        }
-        result += 300 * aPerformance.audience;
-        break;
-
-      default:
-        throw new Error(`알 수 없는 장르: ${aPerformance.play.type}`);
-    }
-
-    return result;
+    return new PerformanceCalculator(aPerformance, playFor(aPerformance)).amount; // 원본 함수인 amountFor()도 계산기를 이용하도록 수정
   }
 
   function volumeCreditsFor(perf) {
