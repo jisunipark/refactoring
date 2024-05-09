@@ -14,7 +14,7 @@ export default function createStatementData(invoice, plays) {
     const result = Object.assign({}, aPerformance);
     result.play = calculator.play;
     result.amount = calculator.amount; // amountFor() 대신 계산기의 함수 이용
-    result.volumeCredits = volumeCreditsFor(result);
+    result.volumeCredits = calculator.volumeCredits;
     return result;
   }
 
@@ -23,17 +23,11 @@ export default function createStatementData(invoice, plays) {
   }
 
   function amountFor(aPerformance) {
-    return new PerformanceCalculator(aPerformance, playFor(aPerformance)).amount; // 원본 함수인 amountFor()도 계산기를 이용하도록 수정
+    return new PerformanceCalculator(aPerformance, playFor(aPerformance)).amount;
   }
 
   function volumeCreditsFor(perf) {
-    let result = 0;
-
-    result += Math.max(perf.audience - 30, 0);
-
-    if ('comedy' === perf.play.type) result += Math.floor(perf.audience / 5);
-
-    return result;
+    return new PerformanceCalculator(perf, playFor(perf)).volumeCredits;
   }
 
   function totalAmount(data) {
