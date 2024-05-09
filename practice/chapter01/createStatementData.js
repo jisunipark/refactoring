@@ -10,9 +10,10 @@ export default function createStatementData(invoice, plays) {
 
   function enrichPerformance(aPerformance) {
     const calculator = new PerformanceCalculator(aPerformance, playFor(aPerformance));
+
     const result = Object.assign({}, aPerformance);
-    result.play = playFor(result);
-    result.amount = amountFor(result);
+    result.play = calculator.play;
+    result.amount = calculator.amount; // amountFor() 대신 계산기의 함수 이용
     result.volumeCredits = volumeCreditsFor(result);
     return result;
   }

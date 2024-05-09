@@ -7,12 +7,9 @@ export class PerformanceCalculator {
   }
 
   get amount() {
-    // amountFor() 함수의 코드를 계산기 클래스로 복사
     let result = 0;
 
-    switch (
-      this.play.type // amountFor() 함수가 매개변수로 받던 정보를 계산기 필드에서 바로 얻음
-    ) {
+    switch (this.play.type) {
       case 'tragedy':
         result = 40_000;
         if (this.audience > 30) {
