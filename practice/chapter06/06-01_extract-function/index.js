@@ -1,15 +1,16 @@
+// 코딩스타일에 맞게 변경
 function printOwing(invoice) {
   printBanner();
-  let outstanding = calculateOutstanding(invoice); // 함수 추출 완료. 추출한 함수가 반환한 값을 원래 변수에 저장한다.
+  const outstanding = calculateOutstanding(invoice);
   recordDueDate(invoice);
   printDetails(invoice, outstanding);
 
   function calculateOutstanding(invoice) {
-    let outstanding = 0; // 추출할 코드 복사
+    let result = 0;
     for (const o of invoice.orders) {
-      outstanding += o.amount;
+      result += o.amount;
     }
-    return outstanding; // 수정된 값 반환
+    return result;
   }
 
   function recordDueDate(invoice) {
