@@ -8,11 +8,13 @@ function printOwing(invoice) {
     outstanding += o.amount;
   }
 
-  // 마감일 기록
-  const today = Clock.today; // https://martinfowler.com/bliki/ClockWrapper.html
-  invoice.dueDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 30);
+  recordDueDate(invoice); // 마감일 설정 로직을 함수로 추출
+  printDetails(invoice, outstanding); // 앞의 예와 달리 지역변수를 매개변수로 전달
 
-  printDetails();
+  function recordDueDate(invoice) {
+    const today = Clock.today;
+    invoice.dueDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 30);
+  }
 
   function printBanner() {
     console.log('***********');
@@ -20,7 +22,7 @@ function printOwing(invoice) {
     console.log('***********');
   }
 
-  function printDetails() {
+  function printDetails(invoice, outstanding) {
     console.log(`고객명: ${invoice.customer}`);
     console.log(`채무액: ${outstanding}`);
     console.log(`마감일: ${invoice.dueDate.toLocaleDateString()}`);
