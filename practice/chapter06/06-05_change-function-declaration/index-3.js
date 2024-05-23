@@ -1,4 +1,5 @@
-const newEnglanders = someCustomers.filter((c) => isNewEngland(c));
-function isNewEngland(aCustomer) {
-  return ['MA', 'CT', 'ME', 'VT', 'NH', 'RI'].includes(aCustomer.address.state);
+const newEnglanders = someCustomers.filter((c) => inNewEngland(aCustomer.address.state);
+
+function inNewEngland(stateCode) {
+  return ['MA', 'CT', 'ME', 'VT', 'NH', 'RI'].includes(stateCode);
 }
